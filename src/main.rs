@@ -1,8 +1,8 @@
 use bracket_lib::terminal::{main_loop, BError, BTermBuilder};
-use rustle_bird::{config::Config, state::State};
+use rustle_bird::{config::CONFIG, state::State};
 
 fn main() -> BError {
-    let context = BTermBuilder::vga(Config::new().get_width(), Config::new().get_height())
+    let context = BTermBuilder::vga(CONFIG.get_width() / 2, CONFIG.get_height() / 2)
         .with_title("Rustle Bird")
         .with_vsync(true)
         .with_automatic_console_resize(true)
