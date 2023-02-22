@@ -31,6 +31,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install lib
+        run: |
+          sudo apt-get update
+          sudo apt-get install libfontconfig1-dev
+
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -38,7 +43,8 @@ jobs:
           target: ${{ matrix.target }}
           override: true
 
-      - uses: actions-rs/cargo@v1
+      - name: Build binary
+        uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: build
