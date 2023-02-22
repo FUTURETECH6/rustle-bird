@@ -22,19 +22,14 @@ jobs:
         target:
           - aarch64-apple-darwin
           - aarch64-unknown-linux-musl
-          - aarch64-pc-windows-msvc
+          - aarch64-pc-windows-gnu
           - x86_64-apple-darwin
           - x86_64-unknown-linux-musl
-          - x86_64-pc-windows-msvc
+          - x86_64-pc-windows-gnu
       fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install lib
-        run: |
-          sudo apt-get update
-          sudo apt-get install libfontconfig1-dev
 
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
