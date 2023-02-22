@@ -1,5 +1,7 @@
 # Rustle Bird
 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/futuretech6/rustle-bird/build.yml?branch=actions&label=build)](https://github.com/FUTURETECH6/rustle-bird/actions/workflows/build.yml)
+
 FlappyBird in Rust
 
 ## Get started
