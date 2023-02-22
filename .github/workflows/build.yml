@@ -1,0 +1,65 @@
+name: Rust
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'src'
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - aarch64-unknown-linux-musl
+          - aarch64-pc-windows-msvc
+          - x86_64-apple-darwin
+          - x86_64-unknown-linux-musl
+          - x86_64-pc-windows-msvc
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+          override: true
+
+      - uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target=${{ matrix.target }}
+
+      - name: Build archive
+        shell: bash
+        run: |
+          mkdir archive
+          cp README.archive/
+          cd archive
+          if [ "${{ matrix.target }}" == "*-pc-windows-msvc" ]; then
+            cp "../target/${{ matrix.target }}/release/rustle-bird.exe" ./
+            7z a "rustle-bird-${{ matrix.target }}.7z" README.md rustle-bird.exe
+          else
+            cp "../target/${{ matrix.target }}/release/rustle-bird" ./
+            tar -czf "rustle-bird-${{ matrix.target }}.tar.gz" README.md rustle-bird
+          fi
+
+      - name: Upload archive
+        uses: actions/upload-artifact@v1
+        with:
+          name: rustle-bird-${{ matrix.target }}
+          path: archive/${{ matrix.archive-name }}.*
