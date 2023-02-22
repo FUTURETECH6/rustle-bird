@@ -1,5 +1,5 @@
-use crate::{bird::Bird, config::CONFIG};
-use bracket_lib::terminal::{BTerm, GameState, Rect, VirtualKeyCode, CORNFLOWER_BLUE, WHITE};
+use crate::{bird::Bird, config::CONFIG, map::Map};
+use bracket_lib::terminal::{BTerm, GameState, VirtualKeyCode};
 
 enum ExecState {
     Ready,
@@ -11,6 +11,8 @@ enum ExecState {
 pub struct State {
     mode: ExecState,
     bird: Bird,
+    map: Map,
+    score: u32,
 }
 
 impl State {
@@ -18,18 +20,22 @@ impl State {
         State {
             mode: ExecState::Ready,
             bird: Bird::new(),
+            map: Map::new(),
+            score: 0,
         }
     }
 
     fn restart(&mut self) {
-        self.bird.init();
         self.mode = ExecState::Playing;
+        self.bird.init();
+        self.map.init();
+        self.score = 0;
     }
 
     fn menu(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         ctx.print_centered(7, "Rustle Bird");
-        ctx.print_centered(15, "Press any buttons to start");
+        ctx.print_centered(15, "Press any button to start");
         ctx.print_centered(16, "Press Esc or Q to quit");
 
         if let Some(key) = ctx.key {
@@ -43,12 +49,8 @@ impl State {
     fn play(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         self.bird.print(ctx);
-        ctx.fill_region(
-            Rect::with_size(0, CONFIG.get_height() as i32, CONFIG.get_width() as i32, 1),
-            0,
-            WHITE,
-            CORNFLOWER_BLUE,
-        );
+        self.map.print(ctx);
+        ctx.print(CONFIG.width - 5, 1, self.score);
 
         if let Some(key) = ctx.key {
             match key {
@@ -57,17 +59,26 @@ impl State {
             }
         }
 
-        if self.bird.get_height() < 0. {
+        if self.bird.get_height() < 0.
+            || self
+                .map
+                .collide(CONFIG.width as f64 / 2., self.bird.get_height() as f64)
+        {
             self.mode = ExecState::Dead;
         }
 
         self.bird.update();
+        if self.map.update() {
+            self.score += 1;
+        }
     }
 
     fn pause(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         ctx.print_centered(7, "Pause");
         self.bird.print(ctx);
+        self.map.print(ctx);
+        ctx.print(CONFIG.width - 5, 1, self.score);
 
         if let Some(key) = ctx.key {
             match key {
@@ -80,7 +91,8 @@ impl State {
     fn end(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         ctx.print_centered(7, "You are dead");
-        ctx.print_centered(15, "Press any buttons to restart");
+        ctx.print_centered(8, format!("Score: {:?}", self.score));
+        ctx.print_centered(15, "Press any button to restart");
         ctx.print_centered(16, "Press Esc or Q to quit");
 
         if let Some(key) = ctx.key {
