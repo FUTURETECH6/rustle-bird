@@ -9,6 +9,7 @@ repos:
     -   id: check-toml
     -   id: check-added-large-files
     -   id: mixed-line-ending
+    -   id: check-yaml
 
 -   repo: https://github.com/doublify/pre-commit-rust
     rev: master
