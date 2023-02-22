@@ -42,7 +42,7 @@ impl Map {
         }
 
         // remove old
-        while !self.pipes.is_empty() && self.pipes.front().unwrap().x < 0. {
+        while !self.pipes.is_empty() && (self.pipes.front().unwrap().x + CONFIG.pipe_width as f64) < 0. {
             self.pipes.pop_front();
         }
 
