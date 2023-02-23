@@ -48,9 +48,7 @@ impl State {
 
     fn play(&mut self, ctx: &mut BTerm) {
         ctx.cls();
-        self.bird.print(ctx);
-        self.map.print(ctx);
-        ctx.print(CONFIG.width - 5, 1, self.score);
+        self.print_scene(ctx);
 
         if let Some(key) = ctx.key {
             match key {
@@ -76,9 +74,7 @@ impl State {
     fn pause(&mut self, ctx: &mut BTerm) {
         ctx.cls();
         ctx.print_centered(7, "Pause");
-        self.bird.print(ctx);
-        self.map.print(ctx);
-        ctx.print(CONFIG.width - 5, 1, self.score);
+        self.print_scene(ctx);
 
         if let Some(key) = ctx.key {
             match key {
@@ -101,6 +97,12 @@ impl State {
                 _ => self.restart(),
             }
         }
+    }
+
+    fn print_scene(&self, ctx: &mut BTerm) {
+        self.map.print(ctx);
+        self.bird.print(ctx);
+        ctx.print(CONFIG.width - 5, 1, self.score);
     }
 }
 
