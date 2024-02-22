@@ -1,4 +1,5 @@
-use crate::{bird::Bird, config::CONFIG, map::Map};
+use crate::components::{bird::Bird, map::Map};
+use crate::config::CONFIG;
 use bracket_lib::terminal::{BTerm, GameState, VirtualKeyCode};
 
 enum ExecState {

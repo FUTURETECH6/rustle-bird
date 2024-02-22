@@ -1,5 +1,3 @@
-pub mod bird;
+pub mod components;
 pub mod config;
-pub mod map;
-pub mod pipe;
 pub mod state;

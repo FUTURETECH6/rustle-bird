@@ -1,4 +1,4 @@
-use crate::{config::CONFIG, pipe::Pipe};
+use crate::{components::pipe::Pipe, config::CONFIG};
 use bracket_lib::terminal::BTerm;
 use std::collections::LinkedList;
 
