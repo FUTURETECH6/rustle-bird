@@ -24,9 +24,9 @@ pub struct Config {
     pub pipe_speed: f64,
 }
 
-impl Config {
-    pub fn new() -> Config {
-        Config {
+impl Default for Config {
+    fn default() -> Self {
+        Self {
             width: 80,
             height: 24,
             gravity: 0.005,
@@ -42,5 +42,5 @@ impl Config {
 
 use lazy_static::lazy_static;
 lazy_static! {
-    pub static ref CONFIG: Config = Config::new();
+    pub static ref CONFIG: Config = Config::default();
 }

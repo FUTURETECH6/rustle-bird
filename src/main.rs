@@ -9,5 +9,5 @@ fn main() -> BError {
         .with_fps_cap(60.)
         .build()?;
 
-    main_loop(context, State::new())
+    main_loop(context, State::default())
 }

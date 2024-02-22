@@ -16,16 +16,18 @@ pub struct State {
     score: u32,
 }
 
-impl State {
-    pub fn new() -> State {
-        State {
+impl Default for State {
+    fn default() -> Self {
+        Self {
             mode: ExecState::Ready,
             bird: Bird::new(),
             map: Map::new(),
             score: 0,
         }
     }
+}
 
+impl State {
     fn restart(&mut self) {
         self.mode = ExecState::Playing;
         self.bird.init();
@@ -58,11 +60,7 @@ impl State {
             }
         }
 
-        if self.bird.get_height() < 0.
-            || self
-                .map
-                .collide(CONFIG.width as f64 / 2., self.bird.get_height() as f64)
-        {
+        if self.bird.get_height() < 0. || self.map.collide(CONFIG.width as f64 / 2., self.bird.get_height()) {
             self.mode = ExecState::Dead;
         }
 
@@ -78,9 +76,8 @@ impl State {
         self.print_scene(ctx);
 
         if let Some(key) = ctx.key {
-            match key {
-                VirtualKeyCode::P => self.mode = ExecState::Playing,
-                _ => {}
+            if key == VirtualKeyCode::P {
+                self.mode = ExecState::Playing
             }
         }
     }

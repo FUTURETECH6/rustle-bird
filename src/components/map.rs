@@ -52,7 +52,7 @@ impl Map {
     /// check if object at (x, y) is collided with all pipe
     pub fn collide(&self, x: f64, y: f64) -> bool {
         for i in self.pipes.iter() {
-            if i.collide(x as f64, y) {
+            if i.collide(x, y) {
                 return true;
             }
         }

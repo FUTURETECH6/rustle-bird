@@ -30,7 +30,7 @@ impl Bird {
     /// called periodically only by [State](crate::state::State)
     /// when the game is being playing
     pub fn update(&mut self) {
-        self.height = self.height as f64 + self.speed;
+        self.height += self.speed;
         self.speed -= CONFIG.gravity;
     }
 
