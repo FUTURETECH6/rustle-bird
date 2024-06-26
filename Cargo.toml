@@ -4,6 +4,7 @@ description = "A FlappyBird game implemented in Rust"
 version = "0.1.0"
 authors = ["xiyao <futuretech6@foxmail.com>"]
 repository = "https://github.com/futuretech6/rustle-bird"
+license = "Apache-2.0"
 
 edition = "2021"
 
