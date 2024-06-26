@@ -1,7 +1,10 @@
 [package]
 name = "rustle-bird"
+description = "A FlappyBird game implemented in Rust"
 version = "0.1.0"
 authors = ["xiyao <futuretech6@foxmail.com>"]
+repository = "https://github.com/futuretech6/rustle-bird"
+
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
